@@ -14,11 +14,11 @@ const ALICE = "5CoMf7zB7mXrC8nbMMWRdrDX2cuhDgikWDXwRNhPjtHVZ7rp";
 async function main() {
 
     // Fungible Token test
-    // await ft_test_to_private();
+    await ft_test_to_private();
     // await ft_test_to_public();
-    await ft_test_to_private_only_sign();
+    // await ft_test_to_private_only_sign();
 
-    await ft_test_private_transfer();
+    // await ft_test_private_transfer();
 
     // await public_transfer_test();
     // await create_nft_test();

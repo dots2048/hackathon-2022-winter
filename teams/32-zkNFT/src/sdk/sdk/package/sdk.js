@@ -316,20 +316,6 @@ var MantaSdk = /** @class */ (function () {
             });
         });
     };
-    /// Executes a "To Private" transaction for any fungible token, using the post method.
-    MantaSdk.prototype.toPrivatePost = function (asset_id, amount) {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, to_private_by_post(this.wasm, this.wasmWallet, asset_id, amount, this.network)];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, res];
-                }
-            });
-        });
-    };
     /// Executes a "To Private" transaction for any fungible token.
     /// Optional: The `onlySign` flag allows for the ability to sign and return
     /// the transaction without posting it to the ledger.
@@ -881,46 +867,13 @@ function sync(wasm, wasmWallet, network) {
         });
     });
 }
-/// Attempts to execute a "To Private" transaction by a post on the currently
-/// connected wallet.
-function to_private_by_post(wasm, wasmWallet, asset_id, to_private_amount, network) {
-    return __awaiter(this, void 0, void 0, function () {
-        var amountBN, asset_id_arr, txJson, transaction, networkType, res, error_3;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.log("to_private transaction...");
-                    amountBN = new BN(to_private_amount);
-                    asset_id_arr = Array.from(asset_id);
-                    txJson = "{ \"ToPrivate\": { \"id\": [".concat(asset_id_arr, "], \"value\": ").concat(amountBN, " }}");
-                    console.log("txJson:" + txJson);
-                    transaction = wasm.Transaction.from_string(txJson);
-                    console.log("transaction:" + JSON.stringify(transaction));
-                    networkType = wasm.Network.from_string("\"".concat(network, "\""));
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, wasmWallet.post(transaction, null, networkType)];
-                case 2:
-                    res = _a.sent();
-                    console.log("📜to_private result:" + res);
-                    return [2 /*return*/, res];
-                case 3:
-                    error_3 = _a.sent();
-                    console.error('Transaction failed', error_3);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    });
-}
 /// Attempts to execute a "To Private" transaction by a sign + sign_and_send on
 /// the currently connected wallet.
 /// Optional: The `onlySign` flag allows for the ability to sign and return
 /// the transaction without posting it to the ledger.
 function to_private_by_sign(api, signer, wasm, wasmWallet, asset_id, to_private_amount, network, onlySign) {
     return __awaiter(this, void 0, void 0, function () {
-        var amountBN, asset_id_arr, txJson, transaction, signResult, res, error_4;
+        var amountBN, asset_id_arr, txJson, transaction, signResult, res, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -933,19 +886,19 @@ function to_private_by_sign(api, signer, wasm, wasmWallet, asset_id, to_private_
                 case 1:
                     _a.trys.push([1, 6, , 7]);
                     if (!onlySign) return [3 /*break*/, 3];
-                    return [4 /*yield*/, sign_transaction(api, wasm, wasmWallet, null, transaction, network)];
+                    return [4 /*yield*/, sign_transaction("FT", api, wasm, wasmWallet, null, transaction, network)];
                 case 2:
                     signResult = _a.sent();
                     return [2 /*return*/, signResult];
-                case 3: return [4 /*yield*/, sign_and_send_without_metadata(wasm, api, signer, wasmWallet, transaction, network)];
+                case 3: return [4 /*yield*/, sign_and_send_without_metadata("FT", wasm, api, signer, wasmWallet, transaction, network)];
                 case 4:
                     res = _a.sent();
                     console.log("📜to_private done");
                     return [2 /*return*/, res];
                 case 5: return [3 /*break*/, 7];
                 case 6:
-                    error_4 = _a.sent();
-                    console.error('Transaction failed', error_4);
+                    error_3 = _a.sent();
+                    console.error('Transaction failed', error_3);
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];
             }
@@ -979,11 +932,11 @@ function to_public(api, signer, wasm, wasmWallet, asset_id, transfer_amount, net
                     assetMetadataJson = "{ \"decimals\": ".concat(decimals, ", \"symbol\": \"").concat(PRIVATE_ASSET_PREFIX).concat(symbol, "\" }");
                     console.log("📜asset metadata:" + assetMetadataJson);
                     if (!onlySign) return [3 /*break*/, 3];
-                    return [4 /*yield*/, sign_transaction(api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                    return [4 /*yield*/, sign_transaction("FT", api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
                 case 2:
                     signResult = _a.sent();
                     return [2 /*return*/, signResult];
-                case 3: return [4 /*yield*/, sign_and_send(api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                case 3: return [4 /*yield*/, sign_and_send("FT", api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
                 case 4:
                     res = _a.sent();
                     console.log("📜finish to public transfer.");
@@ -1020,11 +973,11 @@ function private_transfer(api, signer, wasm, wasmWallet, asset_id, private_trans
                     assetMetadataJson = "{ \"decimals\": ".concat(decimals, ", \"symbol\": \"").concat(PRIVATE_ASSET_PREFIX).concat(symbol, "\" }");
                     console.log("📜asset metadata:" + assetMetadataJson);
                     if (!onlySign) return [3 /*break*/, 3];
-                    return [4 /*yield*/, sign_transaction(api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                    return [4 /*yield*/, sign_transaction("FT", api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
                 case 2:
                     signResult = _a.sent();
                     return [2 /*return*/, signResult];
-                case 3: return [4 /*yield*/, sign_and_send(api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                case 3: return [4 /*yield*/, sign_and_send("FT", api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
                 case 4:
                     res = _a.sent();
                     console.log("📜finish private transfer.");
@@ -1301,7 +1254,7 @@ function allNFTsInCollection(api, collectionId, address) {
 /// TODO: fixed amount value
 function to_private_nft(signer, api, wasm, wasmWallet, asset_id, network) {
     return __awaiter(this, void 0, void 0, function () {
-        var asset_id_arr, txJson, transaction, res, error_5;
+        var asset_id_arr, txJson, transaction, res, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1313,14 +1266,14 @@ function to_private_nft(signer, api, wasm, wasmWallet, asset_id, network) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, sign_and_send_without_metadata(wasm, api, signer, wasmWallet, transaction, network)];
+                    return [4 /*yield*/, sign_and_send_without_metadata("NFT", wasm, api, signer, wasmWallet, transaction, network)];
                 case 2:
                     res = _a.sent();
                     console.log("📜to_private NFT result:" + res);
                     return [3 /*break*/, 4];
                 case 3:
-                    error_5 = _a.sent();
-                    console.error('Transaction failed', error_5);
+                    error_4 = _a.sent();
+                    console.error('Transaction failed', error_4);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -1331,7 +1284,7 @@ function to_private_nft(signer, api, wasm, wasmWallet, asset_id, network) {
 /// TODO: fixed amount value and asset metadata
 function private_transfer_nft(api, signer, wasm, wasmWallet, asset_id, to_private_address, network) {
     return __awaiter(this, void 0, void 0, function () {
-        var addressJson, asset_id_arr, txJson, transaction, assetMetadataJson;
+        var addressJson, asset_id_arr, txJson, transaction, assetIdNumber, asset_meta, json, jsonObj, symbol, assetMetadataJson;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1340,9 +1293,16 @@ function private_transfer_nft(api, signer, wasm, wasmWallet, asset_id, to_privat
                     asset_id_arr = Array.from(asset_id);
                     txJson = "{ \"PrivateTransfer\": [{ \"id\": [".concat(asset_id_arr, "], \"value\": ").concat(NFT_AMOUNT, " }, ").concat(addressJson, " ]}");
                     transaction = wasm.Transaction.from_string(txJson);
-                    assetMetadataJson = "{ \"decimals\": 12, \"symbol\": \"pNFT\" }";
-                    return [4 /*yield*/, sign_and_send(api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                    assetIdNumber = uint8ArrayToNumber(asset_id);
+                    return [4 /*yield*/, api.query.assetManager.assetIdMetadata(assetIdNumber)];
                 case 1:
+                    asset_meta = _a.sent();
+                    json = JSON.stringify(asset_meta.toHuman());
+                    jsonObj = JSON.parse(json);
+                    symbol = jsonObj["NonFungible"]["name"];
+                    assetMetadataJson = "{ \"decimals\": 12, \"symbol\": \"NFT ".concat(symbol, "\" }");
+                    return [4 /*yield*/, sign_and_send("NFT", api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                case 2:
                     _a.sent();
                     console.log("📜finish private nft transfer.");
                     return [2 /*return*/];
@@ -1384,7 +1344,7 @@ function publicTransferNFT(api, signer, assetId, address) {
 /// TODO: fixed amount value and asset metadata
 function to_public_nft(api, signer, wasm, wasmWallet, asset_id, network) {
     return __awaiter(this, void 0, void 0, function () {
-        var asset_id_arr, txJson, transaction, assetMetadataJson;
+        var asset_id_arr, txJson, transaction, assetIdNumber, asset_meta, json, jsonObj, symbol, nft_symbol, assetMetadataJson;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1392,9 +1352,20 @@ function to_public_nft(api, signer, wasm, wasmWallet, asset_id, network) {
                     asset_id_arr = Array.from(asset_id);
                     txJson = "{ \"ToPublic\": { \"id\": [".concat(asset_id_arr, "], \"value\": ").concat(NFT_AMOUNT, " }}");
                     transaction = wasm.Transaction.from_string(txJson);
-                    assetMetadataJson = "{ \"decimals\": 12 , \"symbol\": \"pNFT\" }";
-                    return [4 /*yield*/, sign_and_send(api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                    assetIdNumber = uint8ArrayToNumber(asset_id);
+                    return [4 /*yield*/, api.query.assetManager.assetIdMetadata(assetIdNumber)];
                 case 1:
+                    asset_meta = _a.sent();
+                    json = JSON.stringify(asset_meta.toHuman());
+                    console.log("asset_meta:" + json);
+                    jsonObj = JSON.parse(json);
+                    console.log("asset_meta json:" + JSON.stringify(jsonObj));
+                    symbol = jsonObj["NonFungible"]["name"];
+                    console.log("symbol:" + symbol);
+                    nft_symbol = "NFT" + symbol;
+                    assetMetadataJson = "{ \"decimals\": 12, \"symbol\": \"".concat(nft_symbol, "\" }");
+                    return [4 /*yield*/, sign_and_send("NFT", api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+                case 2:
                     _a.sent();
                     console.log("📜finish to public nft transfer.");
                     return [2 /*return*/];
@@ -1405,11 +1376,11 @@ function to_public_nft(api, signer, wasm, wasmWallet, asset_id, network) {
 ;
 /// Using sign on wallet and using signAndSend to polkadot.js transaction
 /// This version is using `null` asset metdata. Only meaningful for to_private.
-var sign_and_send_without_metadata = function (wasm, api, signer, wasmWallet, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
-    var signed_transaction, i, error_6;
+var sign_and_send_without_metadata = function (asset_type, wasm, api, signer, wasmWallet, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
+    var signed_transaction, i, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, sign_transaction(api, wasm, wasmWallet, null, transaction, network)];
+            case 0: return [4 /*yield*/, sign_transaction(asset_type, api, wasm, wasmWallet, null, transaction, network)];
             case 1:
                 signed_transaction = _a.sent();
                 i = 0;
@@ -1424,8 +1395,8 @@ var sign_and_send_without_metadata = function (wasm, api, signer, wasmWallet, tr
                 _a.sent();
                 return [3 /*break*/, 6];
             case 5:
-                error_6 = _a.sent();
-                console.error('Transaction failed', error_6);
+                error_5 = _a.sent();
+                console.error('Transaction failed', error_5);
                 return [3 /*break*/, 6];
             case 6:
                 i++;
@@ -1436,7 +1407,7 @@ var sign_and_send_without_metadata = function (wasm, api, signer, wasmWallet, tr
 }); };
 /// Signs the a given transaction returning posts, transactions and batches.
 /// assetMetaDataJson is optional, pass in null if transaction should not contain any.
-var sign_transaction = function (api, wasm, wasmWallet, assetMetadataJson, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
+var sign_transaction = function (asset_type, api, wasm, wasmWallet, assetMetadataJson, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
     var assetMetadata, networkType, posts, transactions, i, convertedPost, transaction_1, txs;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -1455,7 +1426,7 @@ var sign_transaction = function (api, wasm, wasmWallet, assetMetadataJson, trans
             case 2:
                 if (!(i < posts.length)) return [3 /*break*/, 5];
                 convertedPost = transfer_post(posts[i]);
-                return [4 /*yield*/, mapPostToTransaction(convertedPost, api)];
+                return [4 /*yield*/, mapPostToTransaction(asset_type, convertedPost, api)];
             case 3:
                 transaction_1 = _a.sent();
                 // console.log("transaction:" + JSON.stringify(transaction));
@@ -1476,11 +1447,11 @@ var sign_transaction = function (api, wasm, wasmWallet, assetMetadataJson, trans
     });
 }); };
 /// Using sign on wallet and using signdAndSend to polkadot.js transaction
-var sign_and_send = function (api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
-    var signed_transaction, i, error_7;
+var sign_and_send = function (asset_type, api, signer, wasm, wasmWallet, assetMetadataJson, transaction, network) { return __awaiter(void 0, void 0, void 0, function () {
+    var signed_transaction, i, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, sign_transaction(api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
+            case 0: return [4 /*yield*/, sign_transaction(asset_type, api, wasm, wasmWallet, assetMetadataJson, transaction, network)];
             case 1:
                 signed_transaction = _a.sent();
                 i = 0;
@@ -1495,8 +1466,8 @@ var sign_and_send = function (api, signer, wasm, wasmWallet, assetMetadataJson, 
                 _a.sent();
                 return [3 /*break*/, 6];
             case 5:
-                error_7 = _a.sent();
-                console.error('Transaction failed', error_7);
+                error_6 = _a.sent();
+                console.error('Transaction failed', error_6);
                 return [3 /*break*/, 6];
             case 6:
                 i++;
@@ -1506,7 +1477,7 @@ var sign_and_send = function (api, signer, wasm, wasmWallet, assetMetadataJson, 
     });
 }); };
 /// Maps a given `post` to a known transaction type, either Mint, Private Transfer or Reclaim.
-function mapPostToTransaction(post, api) {
+function mapPostToTransaction(asset_type, post, api) {
     return __awaiter(this, void 0, void 0, function () {
         var sources, senders, receivers, sinks, mint_tx, private_transfer_tx, reclaim_tx;
         return __generator(this, function (_a) {
@@ -1517,19 +1488,19 @@ function mapPostToTransaction(post, api) {
                     receivers = post.receiver_posts.length;
                     sinks = post.sinks.length;
                     if (!(sources == 1 && senders == 0 && receivers == 1 && sinks == 0)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, api.tx.mantaPay.toPrivate(post)];
+                    return [4 /*yield*/, api.tx.mantaPay.toPrivate(asset_type, post)];
                 case 1:
                     mint_tx = _a.sent();
                     return [2 /*return*/, mint_tx];
                 case 2:
                     if (!(sources == 0 && senders == 2 && receivers == 2 && sinks == 0)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, api.tx.mantaPay.privateTransfer(post)];
+                    return [4 /*yield*/, api.tx.mantaPay.privateTransfer(asset_type, post)];
                 case 3:
                     private_transfer_tx = _a.sent();
                     return [2 /*return*/, private_transfer_tx];
                 case 4:
                     if (!(sources == 0 && senders == 2 && receivers == 1 && sinks == 1)) return [3 /*break*/, 6];
-                    return [4 /*yield*/, api.tx.mantaPay.toPublic(post)];
+                    return [4 /*yield*/, api.tx.mantaPay.toPublic(asset_type, post)];
                 case 5:
                     reclaim_tx = _a.sent();
                     return [2 /*return*/, reclaim_tx];

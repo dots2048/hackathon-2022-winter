@@ -9,6 +9,15 @@ export type TransferAmount = string;
 // Must be a uint8Array of length 32.
 export type AssetId = Uint8Array;
 
+enum AssetType {
+  FT = "FT",
+  NFT = "NFT",
+  SBT = "SBT",
+  PFT = "PFT"
+}
+
+export type AssetTypes = AssetType;
+
 export interface InitApiResult {
   api: ApiPromise,
   signer: string
@@ -42,15 +51,18 @@ export interface IMantaSdk {
   signerVersion(): Promise<Version>;
   assetMetaData(asset_id: AssetId): Promise<any>;
   privateBalance(asset_id: AssetId): Promise<string>;
-  toPrivatePost(asset_id: AssetId, amount: TransferAmount): Promise<void>;
+  publicBalance(asset_id: AssetId, address:string): Promise<any>;
+  publicTransfer(asset_id: AssetId, amount: TransferAmount, address: Address): Promise<any>
+  
   toPrivateSign(asset_id: AssetId, amount: TransferAmount, onlySign: boolean): Promise<any>;
   privateTransfer(asset_id: AssetId, amount: TransferAmount, address: Address, onlySign: boolean): Promise<any>;
   toPublic(asset_id: AssetId, amount: TransferAmount, onlySign: boolean): Promise<any>;
-  publicTransfer(asset_id: AssetId, amount: TransferAmount, address: Address): Promise<any>
-  publicBalance(asset_id: AssetId, address:string): Promise<any>;
+  
+  // zkNFT
   toPrivateNFT(asset_id: AssetId): Promise<void>;
   privateTransferNFT(asset_id: AssetId, address: Address): Promise<void>;
   toPublicNFT(asset_id: AssetId): Promise<void>;
+  
   createCollection(): Promise<any>;
   mintNFT(collectionId: number, itemId: number, address: string): Promise<void>;
   updateNFTMetadata(collectionId: number, itemId: number, metadata:any): Promise<void>;

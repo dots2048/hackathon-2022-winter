@@ -18,7 +18,7 @@
         "leaf_index": "u32",
         "inner_path": "Vec<[u8; 32]>"
     },
-    "PalletMantaPayUtxoMerkleTreePath": {
+    "PalletZknftUtxoMerkleTreePath": {
         "leaf_digest": "Option<[u8; 32]>",
         "current_path": "CurrentPath"
     }

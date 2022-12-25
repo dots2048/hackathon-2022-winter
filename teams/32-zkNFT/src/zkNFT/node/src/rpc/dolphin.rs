@@ -17,7 +17,7 @@
 //! Dolphin RPC Extensions
 
 use super::*;
-use pallet_manta_pay::{
+use pallet_zknft::{
     rpc::{Pull, PullApiServer},
     runtime::PullLedgerDiffApi,
 };

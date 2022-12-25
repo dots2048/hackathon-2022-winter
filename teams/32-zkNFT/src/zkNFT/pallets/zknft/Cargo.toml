@@ -1,10 +1,10 @@
 [package]
 authors = ['Manta Network']
-description = 'Pallet implementing the MantaPay protocol.'
+description = 'Pallet implementing the Zknft protocol.'
 edition = "2021"
 homepage = 'https://manta.network'
 license = 'GPL-3.0'
-name = 'pallet-manta-pay'
+name = 'pallet-zknft'
 readme = 'README.md'
 repository = 'https://github.com/Manta-Network/Manta/'
 version = '0.4.0'

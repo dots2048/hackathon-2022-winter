@@ -88,7 +88,7 @@ pub const TREASURY_PALLET_ID: PalletId = PalletId(*b"py/trsry");
 pub const ASSET_MANAGER_PALLET_ID: PalletId = PalletId(*b"asstmngr");
 
 /// Manta Pay Pallet Identifier
-pub const MANTA_PAY_PALLET_ID: PalletId = PalletId(*b"mantapay");
+pub const MANTA_PAY_PALLET_ID: PalletId = PalletId(*b"zkzknfts");
 
 /// Test Default Asset Existential Deposit
 ///

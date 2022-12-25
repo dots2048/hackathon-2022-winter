@@ -273,7 +273,7 @@ impl Contains<Call> for BaseFilter {
             | Call::Balances(_)
             | Call::XTokens(orml_xtokens::Call::transfer {..}
                 | orml_xtokens::Call::transfer_multicurrencies  {..})
-            | Call::MantaPay(_)
+            | Call::Zknft(_)
             | Call::Preimage(_)
             | Call::AssetManager(_)
             | Call::Uniques(_)
@@ -755,7 +755,7 @@ construct_runtime!(
         // Asset and Private Payment
         Assets: pallet_assets::{Pallet, Call, Storage, Event<T>} = 45,
         AssetManager: pallet_asset_manager::{Pallet, Call, Storage, Config<T>, Event<T>} = 46,
-        MantaPay: pallet_manta_pay::{Pallet, Call, Storage, Event<T>} = 47,
+        Zknft: pallet_zknft::{Pallet, Call, Storage, Event<T>} = 47,
         Uniques: pallet_uniques::{Pallet, Call, Storage, Event<T>} = 48,
     }
 );
@@ -824,7 +824,7 @@ mod benches {
         [pallet_xcm_benchmarks::generic, pallet_xcm_benchmarks::generic::Pallet::<Runtime>]
         // Manta pallets
         [manta_collator_selection, CollatorSelection]
-        [pallet_manta_pay, MantaPay]
+        [pallet_zknft, Zknft]
         [pallet_asset_manager, AssetManager]
         // Nimbus pallets
         [pallet_author_inherent, AuthorInherent]
@@ -940,13 +940,13 @@ impl_runtime_apis! {
         }
     }
 
-    impl pallet_manta_pay::runtime::PullLedgerDiffApi<Block> for Runtime {
+    impl pallet_zknft::runtime::PullLedgerDiffApi<Block> for Runtime {
         fn pull_ledger_diff(
-            checkpoint: pallet_manta_pay::RawCheckpoint,
+            checkpoint: pallet_zknft::RawCheckpoint,
             max_receiver: u64,
             max_sender: u64
-        ) -> pallet_manta_pay::PullResponse {
-            MantaPay::pull_ledger_diff(checkpoint.into(), max_receiver, max_sender)
+        ) -> pallet_zknft::PullResponse {
+            Zknft::pull_ledger_diff(checkpoint.into(), max_receiver, max_sender)
         }
     }
 

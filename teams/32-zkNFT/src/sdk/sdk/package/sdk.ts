@@ -233,7 +233,7 @@ export class MantaSdk implements IMantaSdk {
     /// Item ID: The ID corresponding to a given item (NFT) of a collection.
     ///
     /// Asset ID: The ID derived from combining a Collection ID with an Item ID,
-    /// this is used for transacting NFTs on mantapay.
+    /// this is used for transacting NFTs on zknft.
     
     /// Executes a "To Private" transaction for any non-fungible token.
     async toPrivateNFT(asset_id: AssetId): Promise<void> {
@@ -245,7 +245,7 @@ export class MantaSdk implements IMantaSdk {
         await private_transfer_nft(this.api, this.signer, this.wasm, this.wasmWallet, asset_id, address, this.network);
     }
 
-    /// Transfer a public NFT to another address, using the mantaPay pallet.
+    /// Transfer a public NFT to another address, using the zknft pallet.
     async publicTransferNFT(asset_id: AssetId, address: Address): Promise<void> {
         await publicTransferNFT(this.api, this.signer, asset_id, address);
     }
@@ -639,7 +639,7 @@ async function public_transfer(api: ApiPromise, signer:string, asset_id:AssetId,
     try {
         const asset_id_arr = Array.from(asset_id);
         const amountBN = new BN(amount).toArray('le', 16);
-        const tx = await api.tx.mantaPay.publicTransfer(
+        const tx = await api.tx.zknft.publicTransfer(
             { id: asset_id_arr, value: amountBN },
             address
         );
@@ -857,7 +857,7 @@ async function publicTransferNFT(api: ApiPromise, signer: string, assetId:AssetI
     try {
         const asset_id_arr = Array.from(assetId);
         const u8ArrayNFTAmount = numberToUint8Array(NFT_AMOUNT);
-        const tx = await api.tx.mantaPay.publicTransfer(
+        const tx = await api.tx.zknft.publicTransfer(
             { id: asset_id_arr, value: u8ArrayNFTAmount },
             address
           );
@@ -956,19 +956,19 @@ async function mapPostToTransaction(asset_type: string, asset_id: number, post: 
     let sinks = post.sinks.length;
 
     if (sources == 1 && senders == 0 && receivers == 1 && sinks == 0) {
-        const mint_tx = await api.tx.mantaPay.toPrivate(asset_type, post);
+        const mint_tx = await api.tx.zknft.toPrivate(asset_type, post);
         return mint_tx;
     } else if (sources == 0 && senders == 2 && receivers == 2 && sinks == 0) {
         // private_transfer_asset(asset_id, asset_type, post) for sbt token
         if (asset_type == "SBT") {
-            const private_transfer_tx = await api.tx.mantaPay.privateTransferAsset(asset_id, asset_type, address_sha256, post);
+            const private_transfer_tx = await api.tx.zknft.privateTransferAsset(asset_id, asset_type, address_sha256, post);
             return private_transfer_tx;
         } else {
-            const private_transfer_tx = await api.tx.mantaPay.privateTransfer(asset_type, post);
+            const private_transfer_tx = await api.tx.zknft.privateTransfer(asset_type, post);
             return private_transfer_tx;
         }
     } else if (sources == 0 && senders == 2 && receivers == 1 && sinks == 1) {
-        const reclaim_tx = await api.tx.mantaPay.toPublic(asset_type, post);
+        const reclaim_tx = await api.tx.zknft.toPublic(asset_type, post);
         return reclaim_tx;
     } else {
         throw new Error(

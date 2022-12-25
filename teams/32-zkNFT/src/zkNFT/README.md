@@ -24,7 +24,7 @@ Frontend:
 
 ## Components
 
-- MantaPay with NFT feature supported
+- Zknft with NFT feature supported
 - signer
 - frontend
 

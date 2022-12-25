@@ -7,9 +7,9 @@
     "SIGNER_URL": "http://localhost:29987/",
     "SUBSCAN_API_KEY": "35770f43091fd396d35192f5b6c499db",
     "RPC": {
-        "mantaPay": {
+        "zknft": {
             "pull_ledger_diff": {
-                "description": "pull from mantaPay",
+                "description": "pull from zknft",
                 "params": [{
                         "name": "checkpoint",
                         "type": "Checkpoint"

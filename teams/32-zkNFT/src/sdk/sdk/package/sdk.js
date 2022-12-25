@@ -391,7 +391,7 @@ var MantaSdk = /** @class */ (function () {
     /// Item ID: The ID corresponding to a given item (NFT) of a collection.
     ///
     /// Asset ID: The ID derived from combining a Collection ID with an Item ID,
-    /// this is used for transacting NFTs on mantapay.
+    /// this is used for transacting NFTs on zknft.
     /// Executes a "To Private" transaction for any non-fungible token.
     MantaSdk.prototype.toPrivateNFT = function (asset_id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -418,7 +418,7 @@ var MantaSdk = /** @class */ (function () {
             });
         });
     };
-    /// Transfer a public NFT to another address, using the mantaPay pallet.
+    /// Transfer a public NFT to another address, using the zknft pallet.
     MantaSdk.prototype.publicTransferNFT = function (asset_id, address) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -1038,7 +1038,7 @@ function public_transfer(api, signer, asset_id, address, amount) {
                     _a.trys.push([0, 3, , 4]);
                     asset_id_arr = Array.from(asset_id);
                     amountBN = new BN(amount).toArray('le', 16);
-                    return [4 /*yield*/, api.tx.mantaPay.publicTransfer({ id: asset_id_arr, value: amountBN }, address)];
+                    return [4 /*yield*/, api.tx.zknft.publicTransfer({ id: asset_id_arr, value: amountBN }, address)];
                 case 1:
                     tx = _a.sent();
                     return [4 /*yield*/, tx.signAndSend(signer)];
@@ -1399,7 +1399,7 @@ function publicTransferNFT(api, signer, assetId, address) {
                     _a.trys.push([0, 4, , 5]);
                     asset_id_arr = Array.from(assetId);
                     u8ArrayNFTAmount = numberToUint8Array(NFT_AMOUNT);
-                    return [4 /*yield*/, api.tx.mantaPay.publicTransfer({ id: asset_id_arr, value: u8ArrayNFTAmount }, address)];
+                    return [4 /*yield*/, api.tx.zknft.publicTransfer({ id: asset_id_arr, value: u8ArrayNFTAmount }, address)];
                 case 1:
                     tx = _a.sent();
                     return [4 /*yield*/, api.tx.utility.batch([tx])];
@@ -1573,25 +1573,25 @@ function mapPostToTransaction(asset_type, asset_id, post, api, address_sha256) {
                     receivers = post.receiver_posts.length;
                     sinks = post.sinks.length;
                     if (!(sources == 1 && senders == 0 && receivers == 1 && sinks == 0)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, api.tx.mantaPay.toPrivate(asset_type, post)];
+                    return [4 /*yield*/, api.tx.zknft.toPrivate(asset_type, post)];
                 case 1:
                     mint_tx = _a.sent();
                     return [2 /*return*/, mint_tx];
                 case 2:
                     if (!(sources == 0 && senders == 2 && receivers == 2 && sinks == 0)) return [3 /*break*/, 7];
                     if (!(asset_type == "SBT")) return [3 /*break*/, 4];
-                    return [4 /*yield*/, api.tx.mantaPay.privateTransferAsset(asset_id, asset_type, address_sha256, post)];
+                    return [4 /*yield*/, api.tx.zknft.privateTransferAsset(asset_id, asset_type, address_sha256, post)];
                 case 3:
                     private_transfer_tx = _a.sent();
                     return [2 /*return*/, private_transfer_tx];
-                case 4: return [4 /*yield*/, api.tx.mantaPay.privateTransfer(asset_type, post)];
+                case 4: return [4 /*yield*/, api.tx.zknft.privateTransfer(asset_type, post)];
                 case 5:
                     private_transfer_tx = _a.sent();
                     return [2 /*return*/, private_transfer_tx];
                 case 6: return [3 /*break*/, 10];
                 case 7:
                     if (!(sources == 0 && senders == 2 && receivers == 1 && sinks == 1)) return [3 /*break*/, 9];
-                    return [4 /*yield*/, api.tx.mantaPay.toPublic(asset_type, post)];
+                    return [4 /*yield*/, api.tx.zknft.toPublic(asset_type, post)];
                 case 8:
                     reclaim_tx = _a.sent();
                     return [2 /*return*/, reclaim_tx];

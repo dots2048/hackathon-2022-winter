@@ -12,13 +12,13 @@ const mapPostToTransaction = async (post, api) => {
   let sinks = post.sinks.length;
 
   if (sources == 1 && senders == 0 && receivers == 1 && sinks == 0) {
-    const mint_tx = await api.tx.mantaPay.toPrivate(post);
+    const mint_tx = await api.tx.zknft.toPrivate(post);
     return mint_tx;
   } else if (sources == 0 && senders == 2 && receivers == 2 && sinks == 0) {
-    const private_transfer_tx = await api.tx.mantaPay.privateTransfer(post);
+    const private_transfer_tx = await api.tx.zknft.privateTransfer(post);
     return private_transfer_tx;
   } else if (sources == 0 && senders == 2 && receivers == 1 && sinks == 1) {
-    const reclaim_tx = await api.tx.mantaPay.toPublic(post);
+    const reclaim_tx = await api.tx.zknft.toPublic(post);
     return reclaim_tx;
   } else {
     throw new Error(

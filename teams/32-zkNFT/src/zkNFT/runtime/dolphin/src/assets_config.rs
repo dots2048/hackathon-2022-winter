@@ -217,14 +217,14 @@ impl pallet_asset_manager::Config for Runtime {
 }
 
 parameter_types! {
-    pub const MantaPayPalletId: PalletId = MANTA_PAY_PALLET_ID;
+    pub const ZknftPalletId: PalletId = MANTA_PAY_PALLET_ID;
 }
 
-impl pallet_manta_pay::Config for Runtime {
+impl pallet_zknft::Config for Runtime {
     type Event = Event;
-    type WeightInfo = weights::pallet_manta_pay::SubstrateWeight<Runtime>;
+    type WeightInfo = weights::pallet_zknft::SubstrateWeight<Runtime>;
     type AssetConfig = DolphinAssetConfig;
-    type PalletId = MantaPayPalletId;
+    type PalletId = ZknftPalletId;
 }
 
 parameter_types! {

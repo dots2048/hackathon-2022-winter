@@ -31,9 +31,9 @@
     "CALAMARI_PRIVATE_SS58_ADDRESS": "dmwQify37LiZkBEYP4jRd1BGDqxGb1Zax1gKUi3kQxCyaPwdF",
     "DEFAULT_PULL_SIZE": 4096,
     "RPC": {
-        "mantaPay": {
+        "zknft": {
             "pull_ledger_diff": {
-                "description": "pull from mantaPay",
+                "description": "pull from zknft",
                 "params": [{
                         "name": "checkpoint",
                         "type": "Checkpoint"

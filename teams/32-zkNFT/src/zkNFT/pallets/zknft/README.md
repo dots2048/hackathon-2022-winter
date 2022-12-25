@@ -1,6 +1,6 @@
-# pallet-manta-pay
+# pallet-zknft
 
-This is a pallet that enables MantaPay, a multi-asset, decentralized shielded payment protocol.
+This is a pallet that enables Zknft, a multi-asset, decentralized shielded payment protocol.
 The best way to use this repo is to invoke it with a manta parachain node (with configuration of Manta/Calamari/Dolphin),
 available from [manta](https://github.com/Manta-Network/manta).
 
@@ -31,7 +31,7 @@ cargo build --release --features=runtime-benchmarks
 --chain=dolphin-dev \
 --execution=Wasm \
 --wasm-execution=Compiled \
---pallet=pallet_manta_pay \
+--pallet=pallet_zknft \
 --extrinsic='*' \
 --steps=20 \
 --repeat=10 \

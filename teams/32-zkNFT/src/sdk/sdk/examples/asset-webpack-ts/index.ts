@@ -9,15 +9,15 @@ const half_amount = "5000000000000000000"; // 5 unit
 const ALICE = "5CoMf7zB7mXrC8nbMMWRdrDX2cuhDgikWDXwRNhPjtHVZ7rp";
 
 async function main() {
-    // await ft_test("to_private", true);
+    await ft_test("to_private", true);
     // await create_nft_test();
     console.log("END");
 
     // 7b40a3c7f1f1773c66411be35c557db1142346118c3ded43ded221102b63f73b
-    var uint8array = new TextEncoder().encode("89mKUwmNAwXz3QkgnHEdpsmjeCpscBPjvR4dyyhfXqJ1");
-    console.log("array:" + uint8array);
-    console.log("sha256:" + sha256(uint8array));
-    console.log("hex:" + buf2hex(sha256(uint8array)));
+    // var uint8array = new TextEncoder().encode("89mKUwmNAwXz3QkgnHEdpsmjeCpscBPjvR4dyyhfXqJ1");
+    // console.log("array:" + uint8array);
+    // console.log("sha256:" + sha256(uint8array));
+    // console.log("hex:" + buf2hex(sha256(uint8array)));
 }
 
 function buf2hex(buffer: Uint8Array) { // buffer is an ArrayBuffer

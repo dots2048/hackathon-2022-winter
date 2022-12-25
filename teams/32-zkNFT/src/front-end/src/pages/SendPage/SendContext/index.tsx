@@ -496,7 +496,7 @@ export const SendContextProvider = (props) => {
     const { senderAssetTargetBalance, receiverAddress } = state;
     const assetId = senderAssetTargetBalance.assetType.assetId;
     const valueAtomicUnits = senderAssetTargetBalance.valueAtomicUnits;
-    const tx = api.tx.mantaPay.publicTransfer(
+    const tx = api.tx.zknft.publicTransfer(
       { id: assetId, value: valueAtomicUnits },
       receiverAddress
     );

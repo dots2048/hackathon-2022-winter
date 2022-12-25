@@ -89,7 +89,7 @@ xcm-executor = { git = 'https://github.com/paritytech/polkadot.git', default-fea
 manta-collator-selection = { path = '../../pallets/collator-selection', default-features = false }
 manta-primitives = { path = '../../primitives/manta', default-features = false }
 pallet-asset-manager = { path = '../../pallets/asset-manager', default-features = false }
-pallet-manta-pay = { path = '../../pallets/manta-pay', default-features = false, features = ["runtime"] }
+pallet-zknft = { path = '../../pallets/zknft', default-features = false, features = ["runtime"] }
 session-key-primitives = { path = '../../primitives/session-keys', default-features = false }
 
 # Third party (vendored) dependencies
@@ -128,7 +128,7 @@ runtime-benchmarks = [
   'pallet-membership/runtime-benchmarks',
   'pallet-treasury/runtime-benchmarks',
   'pallet-assets/runtime-benchmarks',
-  'pallet-manta-pay/runtime-benchmarks',
+  'pallet-zknft/runtime-benchmarks',
   'pallet-asset-manager/runtime-benchmarks',
   'cumulus-pallet-xcmp-queue/runtime-benchmarks',
   'cumulus-pallet-parachain-system/runtime-benchmarks',
@@ -218,5 +218,5 @@ std = [
   'manta-collator-selection/std',
   'pallet-treasury/std',
   'pallet-assets/std',
-  'pallet-manta-pay/std',
+  'pallet-zknft/std',
 ]

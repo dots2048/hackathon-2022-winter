@@ -13,3 +13,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Manta.  If not, see <http://www.gnu.org/licenses/>.
+
+//! Zknft Runtime APIs
+
+use crate::{PullResponse, RawCheckpoint};
+
+sp_api::decl_runtime_apis! {
+    pub trait PullLedgerDiffApi {
+        fn pull_ledger_diff(checkpoint: RawCheckpoint, max_receivers: u64, max_senders: u64) -> PullResponse;
+    }
+}

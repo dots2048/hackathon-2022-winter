@@ -100,7 +100,7 @@ xcm = { git = "https://github.com/paritytech/polkadot.git", branch = "release-v0
 # Self dependencies
 dolphin-runtime = { path = '../runtime/dolphin' }
 manta-primitives = { path = '../primitives/manta' }
-pallet-manta-pay = { path = '../pallets/manta-pay', features = ["rpc", "runtime"] }
+pallet-zknft = { path = '../pallets/zknft', features = ["rpc", "runtime"] }
 session-key-primitives = { path = '../primitives/session-keys' }
 
 [build-dependencies]

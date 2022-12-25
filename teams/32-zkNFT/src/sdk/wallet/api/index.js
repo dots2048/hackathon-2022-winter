@@ -107,7 +107,7 @@ export default class Api {
     try {
       await this.api.isReady;
       console.log('checkpoint', checkpoint);
-      let result = await this.api.rpc.mantaPay.pull_ledger_diff(
+      let result = await this.api.rpc.zknft.pull_ledger_diff(
         checkpoint,
         this.maxReceiversPullSize,
         this.maxSendersPullSize
@@ -149,22 +149,22 @@ export default class Api {
     }
   }
 
-  // Maps a transfer post object to its corresponding MantaPay extrinsic.
+  // Maps a transfer post object to its corresponding zknft extrinsic.
   async _map_post_to_transaction(post) {
     let sources = post.sources.length;
     let senders = post.sender_posts.length;
     let receivers = post.receiver_posts.length;
     let sinks = post.sinks.length;
     if (sources == 1 && senders == 0 && receivers == 1 && sinks == 0) {
-      const mint_tx = await this.api.tx.mantaPay.toPrivate(post);
+      const mint_tx = await this.api.tx.zknft.toPrivate(post);
       return mint_tx;
     } else if (sources == 0 && senders == 2 && receivers == 2 && sinks == 0) {
-      const private_transfer_tx = await this.api.tx.mantaPay.privateTransfer(
+      const private_transfer_tx = await this.api.tx.zknft.privateTransfer(
         post
       );
       return private_transfer_tx;
     } else if (sources == 0 && senders == 2 && receivers == 1 && sinks == 1) {
-      const reclaim_tx = await this.api.tx.mantaPay.toPublic(post);
+      const reclaim_tx = await this.api.tx.zknft.toPublic(post);
       return reclaim_tx;
     } else {
       throw new Error(

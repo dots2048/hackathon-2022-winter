@@ -116,7 +116,9 @@ export const PrivateWalletContextProvider = (props) => {
       // @TODO: Handle network type properlly for sdk.
       // Currently hard coding it as Dolphin upon initialization.
       
-      const mantaSdk = await init(Environment.Development, Network.Dolphin);
+      const TEST2 = "";
+      // const TEST2 = "5DknaTvGdxGTT5yHQCgXhPdj6zgcjhnGuPYN9qVgNAGTVxZ7";
+      const mantaSdk = await init(Environment.Development, Network.Dolphin, TEST2);
       const privateAddress = await mantaSdk.privateAddress();
       console.log("The private address is: ", privateAddress);
       setPrivateAddress(privateAddress);

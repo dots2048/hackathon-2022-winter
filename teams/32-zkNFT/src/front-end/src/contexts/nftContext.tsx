@@ -16,6 +16,9 @@ const NftContext = createContext();
 
 const IPFS_URL = "https://ipfs.io/ipfs/";
 
+const TEST2 = "";
+// const TEST2 = "5DknaTvGdxGTT5yHQCgXhPdj6zgcjhnGuPYN9qVgNAGTVxZ7";
+
 export const NftContextProvider = (props) => {
 
   const { sdk } = usePrivateWallet();
@@ -36,10 +39,6 @@ export const NftContextProvider = (props) => {
   },[sdk,currentPage]);
 
   useEffect(async () => {
-    console.log("NODE_ENV: " + process.env.NODE_ENV);
-    console.log("ENVS:" + JSON.stringify(process.env));
-    console.log("IPFSID: " + process.env.REACT_APP_IPFSSK);
-
     const projectId = "2JLWqhTvTCl9Zzx7Qi93w8WjqW2";
     const projectSecret = process.env.REACT_APP_IPFSSK;
     const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
@@ -107,9 +106,9 @@ export const NftContextProvider = (props) => {
     }
   }
 
-  const getAllNFTsForCollection = async (collectionId) => {
+  const getAllNFTsForCollection = async (collectionId, address="") => {
     try {
-      const allNFTs = await sdk.viewAllNFTsInCollection(collectionId);
+      const allNFTs = await sdk.viewAllNFTsInCollection(collectionId, address);
       return allNFTs;
     } catch (e) {
       console.log("Unable to get all NFTs for the Collection ID: ", collectionId);
@@ -121,7 +120,6 @@ export const NftContextProvider = (props) => {
   // private balance of given assetId to see if we own the NFT.
   const checkPrivateNFTsForOwnership = async (privateNFTS) => {
     try {
-
       if (privateNFTS.length == "0") {
         return privateNFTS;
       }
@@ -129,7 +127,6 @@ export const NftContextProvider = (props) => {
       const owned = [];
 
       for (let i = 0; i < privateNFTS.length; i++) {
-
         const currentPrivateNFT = privateNFTS[i];
         const assetId = await sdk.assetIdFromCollectionAndItemId(currentPrivateNFT.collectionId, currentPrivateNFT.itemId);
         const assetIdArray = await sdk.numberToAssetIdArray(assetId);
@@ -137,7 +134,6 @@ export const NftContextProvider = (props) => {
 
         /// account owns the private NFT
         if (privateBalance == "1000000000000") {
-
           const nftWithAssetId = {...currentPrivateNFT, assetId};
           owned.push(nftWithAssetId);
         }
@@ -168,7 +164,7 @@ export const NftContextProvider = (props) => {
 
       for (let i = 0; i < nextCollectionId.toHuman(); i++) {
 
-        const allNFTsInCollection = await getAllNFTsForCollection(i);
+        const allNFTsInCollection = await getAllNFTsForCollection(i, TEST2);
         // add public NFTs if they exist
 
         if (allNFTsInCollection.publicOwnedNFTs.length) {

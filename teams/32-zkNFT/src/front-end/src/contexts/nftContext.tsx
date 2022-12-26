@@ -131,6 +131,7 @@ export const NftContextProvider = (props) => {
         const assetId = await sdk.assetIdFromCollectionAndItemId(currentPrivateNFT.collectionId, currentPrivateNFT.itemId);
         const assetIdArray = await sdk.numberToAssetIdArray(assetId);
         const privateBalance = await sdk.privateBalance(assetIdArray);
+        console.log("NFT -> private asset id:" + assetId + ", balance:" + privateBalance);
 
         /// account owns the private NFT
         if (privateBalance == "1000000000000") {

@@ -25,13 +25,13 @@ Architecture:
 This product leverage some manta existing architecture but expand it more flexible, in the manta-pay pallet, we support integrate pallet_uniques, this pallets is useful for NFT and SBT features. Given an example of mint NFT,
 once transaction is signed successful, the NFT image will be upload to IPFS, and NFT will handled by pallet_uniques and update related metadata infomration.
 
-![arch](./docs/arch.png)
+![arch](./docs/1.png)
 
 Components:
 
 We abstract a common ProxyLedger which done some basic common behaviour, and for different asset type, we implements different TransferLedger. Using this feature, we can even support NFT airdrop and more than that.
 
-![arch](./docs/comp.png)
+![arch](./docs/2.png)
 
 For example, for sbt that first mint by project manager, after private SBT, project manager can private transfer SBT to users, but user cann't private transfer SBT, because SBT don't allow to transfer. Here is a basic workflow(although not implements complete):
 
